@@ -1,6 +1,7 @@
 #include "Hardware/hardware.hpp"
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 volatile uint32_t g_millis = 0;
 
@@ -59,11 +60,10 @@ namespace Hardware
         return ms;
     }
 
-    void delay(uint32_t ms) noexcept
-    {
-        uint32_t start = millis();
-        while (millis() - start < ms)
-            ;
+    void delay(uint32_t ms) noexcept {
+        while(ms--) {
+            _delay_ms(1);
+        }
     }
 
     inline void delayMicroseconds(uint16_t us) noexcept
@@ -105,5 +105,7 @@ namespace Hardware
 
         pinMode(PIN_BUTTON, PinMode::INPUT);
         PORTB |= (1 << PIN_BUTTON);
+
+        initADC();
     }
 }
