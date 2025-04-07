@@ -7,7 +7,7 @@
 #include "Random/random.hpp"
 #include <avr/io.h>
 
-constexpr uint16_t ADC_THRESHOLD = 875;
+constexpr uint16_t ADC_THRESHOLD = 870;
 
 int main() 
 {
@@ -23,23 +23,23 @@ int main()
     Hardware::delay(100); 
   }
 
-  uint16_t seed = Hardware::readADC(4);
-  Random::srand(seed);
-
+  Hardware:: delay(250);
+  
   while (true) 
     {
         uint16_t triggerValue = Hardware::readADC(Hardware::PIN_BUTTON);
         if (triggerValue < ADC_THRESHOLD)
         {
-            Trinkspiel::run();
+          Random::init();
+          Trinkspiel::run();
 
-            while (Hardware::readADC(Hardware::PIN_BUTTON) < ADC_THRESHOLD)
-            {
-                Hardware::delay(10);
-            }
+          while (Hardware::readADC(Hardware::PIN_BUTTON) < ADC_THRESHOLD)
+          {
+            Hardware::delay(10);
+          }
         }
         Hardware::delay(50);
     }
-    
+
     return 0;
 }

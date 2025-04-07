@@ -3,13 +3,15 @@
 
 #include <stdint.h>
 
-namespace Random 
+namespace Random
 {
-    void srand(uint32_t seed) noexcept;
 
-    [[nodiscard]] uint32_t rand() noexcept;
+    void init() noexcept;
 
-    [[nodiscard]] uint32_t random(uint32_t min, uint32_t max) noexcept;
+    uint32_t next() noexcept;
+
+    uint32_t random(uint32_t min, uint32_t max) noexcept;
+
 }
 
 #endif // RANDOM_HPP

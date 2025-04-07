@@ -15,12 +15,15 @@ namespace Hardware
     constexpr uint8_t PIN_S1 = 1;
     constexpr uint8_t PIN_S2 = 0;
     constexpr uint8_t PIN_BUTTON = 3;
+    constexpr uint8_t PIN_ADC = 4;
 
     void pinMode(uint8_t pin, PinMode mode) noexcept;
 
     void digitalWrite(uint8_t pin, bool value) noexcept;
 
     [[nodiscard]] bool digitalRead(uint8_t pin) noexcept;
+
+    void setMuxChannelSimultaneous(uint8_t channel) noexcept;
 
     [[nodiscard]] uint32_t millis() noexcept;
 
@@ -34,12 +37,7 @@ namespace Hardware
 
     void init() noexcept;
 
-    inline void setMuxChannel(uint8_t channel) noexcept
-    {
-        digitalWrite(PIN_S0, channel & 0x01);
-        digitalWrite(PIN_S1, (channel >> 1) & 0x01);
-        digitalWrite(PIN_S2, (channel >> 2) & 0x01);
-    }
+    void setMuxChannel(uint8_t channel) noexcept;
 }
 
 #endif // HARDWARE_HPP

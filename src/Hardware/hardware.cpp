@@ -45,6 +45,17 @@ namespace Hardware
         TIMSK |= (1 << OCIE0A);
     }
 
+    void setMuxChannel(uint8_t channel) noexcept 
+    {
+        constexpr uint8_t muxMask = (1 << PIN_S0) | (1 << PIN_S1) | (1 << PIN_S2);
+
+        uint8_t value = (((channel >> 0) & 0x01) << PIN_S0) |
+                        (((channel >> 1) & 0x01) << PIN_S1) |
+                        (((channel >> 2) & 0x01) << PIN_S2);
+     
+        PORTB = (PORTB & ~muxMask) | value;
+    }
+
     ISR(TIM0_COMPA_vect)
     {
         g_millis++;
@@ -102,6 +113,8 @@ namespace Hardware
         pinMode(PIN_S0, PinMode::OUTPUT);
         pinMode(PIN_S1, PinMode::OUTPUT);
         pinMode(PIN_S2, PinMode::OUTPUT);
+        pinMode(PIN_ADC, PinMode::INPUT);
+        PORTB &= ~(1 << PIN_ADC);
 
         pinMode(PIN_BUTTON, PinMode::INPUT);
         PORTB |= (1 << PIN_BUTTON);
